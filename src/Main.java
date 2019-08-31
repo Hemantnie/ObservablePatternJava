@@ -1,11 +1,20 @@
+import DispalyScreens.DisplayCurrentConditions;
+import DispalyScreens.DisplayForeCast;
+import DispalyScreens.DisplayStatistics;
+
 import java.io.InterruptedIOException;
 import java.util.Scanner;
+
 
 public class Main {
 
     public static void main(String[] args) throws InterruptedIOException {
 
         WeatherData weatherData = new WeatherData();
+        DisplayCurrentConditions displayCurrentConditions = new DisplayCurrentConditions(weatherData);
+        DisplayStatistics displayStatistics = new DisplayStatistics(weatherData);
+        DisplayForeCast displayForeCast = new DisplayForeCast(weatherData);
+
         Scanner s = new Scanner(System.in);
         while(true){
             System.out.print("Enter temperature: ");

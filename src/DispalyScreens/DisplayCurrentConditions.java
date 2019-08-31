@@ -1,9 +1,18 @@
 package DispalyScreens;
 
-public class DisplayCurrentConditions {
+import BehaviourPatternInterfaces.Observer;
+import BehaviourPatternInterfaces.Subject;
+
+public class DisplayCurrentConditions implements Observer {
     private float temparature;
     private float humidity;
     private float pressure;
+    private Subject weatherData;
+
+    public DisplayCurrentConditions(Subject weatherData){
+        this.weatherData = weatherData;
+        this.weatherData.registerObserver(this);
+    }
 
     public void setTemparature(float temparature) {
         this.temparature = temparature;
@@ -17,7 +26,8 @@ public class DisplayCurrentConditions {
         this.pressure = pressure;
     }
 
-    public void display(float t,float h,float p){
+    @Override
+    public void updateAndDisplay(float t,float h,float p){
         setHumidity(h);
         setPressure(p);
         setTemparature(t);

@@ -1,10 +1,19 @@
 package DispalyScreens;
 
-public class DisplayForeCast {
+import BehaviourPatternInterfaces.Observer;
+import BehaviourPatternInterfaces.Subject;
+
+public class DisplayForeCast implements Observer {
 
     private float temparature;
     private float humidity;
     private float pressure;
+    private Subject weatherData;
+
+    public DisplayForeCast(Subject weatherData){
+        this.weatherData = weatherData;
+        this.weatherData.registerObserver(this);
+    }
 
     public void setTemparature(float temperature) {
         this.temparature = temparature;
@@ -18,7 +27,8 @@ public class DisplayForeCast {
         this.pressure = pressure;
     }
 
-    public void display(float t,float h,float p){
+    @Override
+    public void updateAndDisplay(float t,float h,float p){
         if(temparature == 0 && humidity == 0 && pressure == 0){
             System.out.println("Not a good time to predict");
         }

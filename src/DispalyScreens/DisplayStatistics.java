@@ -1,9 +1,17 @@
 package DispalyScreens;
 
-public class DisplayStatistics {
+import BehaviourPatternInterfaces.*;
+
+public class DisplayStatistics implements Observer {
     private float temparature;
     private float humidity;
     private float pressure;
+    private Subject weatherData;
+
+    public DisplayStatistics(Subject weatherData){
+        this.weatherData = weatherData;
+        this.weatherData.registerObserver(this);
+    }
 
     public void setTemparature(float temparature) {
         this.temparature = temparature;
@@ -17,7 +25,8 @@ public class DisplayStatistics {
         this.pressure = pressure;
     }
 
-    public void display(float t,float h,float p){
+    @Override
+    public void updateAndDisplay(float t,float h,float p){
         if(temparature == 0 && humidity == 0 && pressure == 0){
             System.out.println("No Change in Any Parameter");
         }

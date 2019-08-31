@@ -1,12 +1,18 @@
-import DispalyScreens.DisplayCurrentConditions;
-import DispalyScreens.DisplayForeCast;
-import DispalyScreens.DisplayStatistics;
+import BehaviourPatternInterfaces.Subject;
+import BehaviourPatternInterfaces.Observer;
 
-public class WeatherData {
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class WeatherData implements Subject {
     private float temparature;
     private float humidity;
     private float pressure;
+    private ArrayList<Observer> observerList;
 
+    public WeatherData(){
+        observerList = new ArrayList<>();
+    }
     public void setTemparature(float temparature) {
         this.temparature = temparature;
     }
@@ -19,18 +25,29 @@ public class WeatherData {
         this.pressure = pressure;
     }
 
-    DisplayCurrentConditions displayCurrentConditions = new DisplayCurrentConditions();
-    DisplayStatistics displayStatistics = new DisplayStatistics();
-    DisplayForeCast displayForeCast = new DisplayForeCast();
-
     public void measureMentChanged(float t,float h,float p){
         setHumidity(h);
         setPressure(p);
         setTemparature(t);
-        displayCurrentConditions.display(t,h,p);
-        displayStatistics.display(t,h,p);
-        displayForeCast.display(t,h,p);
+        notifyObserver();
     }
 
 
+    @Override
+    public void registerObserver(Observer o) {
+        observerList.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observerList.remove(o);
+    }
+
+    @Override
+    public void notifyObserver() {
+        Iterator<Observer> listIterator = observerList.iterator();
+        while(listIterator.hasNext()){
+            listIterator.next().updateAndDisplay(temparature,humidity,pressure);
+        }
+    }
 }
